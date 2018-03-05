@@ -1,35 +1,28 @@
 var fs = require('fs');
 
 module.exports = {
-  pwd : process.stdin.on('data', function (data) {
-          var cmd = data.toString().trim();
-          if(cmd === 'pwd'){
-            process.stdout.write(process.cwd());
-          }
-        process.stdout.write('\nprompt > ');
-        }),
-  date : process.stdin.on('data', function (data) {
-          var cmd = data.toString().trim();
-          if(cmd === 'date'){
+  pwd : function () {
+          process.stdout.write(process.cwd());
+        },
+        // process.stdin.on('data', function (data) {
+        //   var cmd = data.toString().trim();
+        //   if(cmd === 'pwd'){
+        //     process.stdout.write(process.cwd());
+        //   }
+        // process.stdout.write('\nprompt > ');
+        // }),
+  date : function () {
             process.stdout.write(Date(Date.now()).toString());
-          }
-          process.stdout.write('\nprompt > ');
-        }),
-  ls : process.stdin.on('data', function (data) {
-        var cmd = data.toString().trim();
-        if(cmd === 'ls'){
-          fs.readdir('.', function(err, files) {
+        },
+  ls : function () {
+        fs.readdir('.', function(err, files) {
             if (err) throw err;
             files.forEach(function(file) {
               process.stdout.write(file.toString() + "\n");
             })
-            process.stdout.write("\nprompt > ");
-          });
-        }
-      }),
-  echo : process.stdin.on('data', function (data) {
-        var cmd = data.toString().trim().slice(0, 4);
-        var text = data.toString().trim().slice(5);
+        })
+      },
+  echo : function(text) {
         // if(cmd === 'echo'){
         //   for(var key in module.exports){
         //     console.log(key)
@@ -40,6 +33,6 @@ module.exports = {
         // } else {
         //   // process.stdout.write(text);
         // }
-        process.stdout.write("\nprompt > ");
-      }),
+        process.stdout.write(text);
+      }
 }
